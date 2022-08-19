@@ -21,7 +21,7 @@ import pandas as pd
 folder_base = "Benchmark-Models/"
 test_folder_base = "Small_Tests/"
 # modelName = "Zheng_PNAS2012"
-# modelName = "Boehm_JProteomeRes2014"
+modelName = "Boehm_JProteomeRes2014"
 # modelName = "Fujita_SciSignal2010"
 # modelName = "Sneyd_PNAS2002"
 # modelName = "Borghans_BiophysChem1997"
@@ -30,8 +30,8 @@ test_folder_base = "Small_Tests/"
 # modelName = "Lucarelli_CellSystems2018"
 # modelName = "Schwen_PONE2014"
 # modelName = "Blasi_CellSystems2016"
-modelName = "Test_Cvijoviclab2022simple"
-#modelName = "Test_Cvijoviclab2022"
+# modelName = "Test_Cvijoviclab2022simple"
+modelName = "Test_Cvijoviclab2022"
 
 # the yaml configuration file links to all needed files
 yamlConfig = os.path.join(folder_base, modelName, modelName + ".yaml")
@@ -56,12 +56,16 @@ petabProblem.sbml_document.convert(converterConfig)
 longModelName = "model_" + modelName 
 testCasePath = os.path.join(test_folder_base, longModelName, "TestCase.csv")
 testCaseGradPath = os.path.join(test_folder_base, longModelName, "TestCaseGrad.csv")
+testCaseHessPath = os.path.join(test_folder_base, longModelName, "TestCaseHess.csv")
 
 dataFrametestCase = pd.read_csv(testCasePath)
 testCaseColumns = dataFrametestCase.columns
 
 dataFrametestCaseGrad = pd.read_csv(testCaseGradPath)
 testCaseGradColumns = dataFrametestCaseGrad.columns
+
+dataFrametestCaseHess = pd.read_csv(testCaseHessPath)
+testCaseHessColumns = dataFrametestCaseHess.columns
 
 obj = importer.create_objective()
 # for some models, hyperparamters need to be adjusted
@@ -82,20 +86,17 @@ for testCaseIndex in range(0,len(dataFrametestCase)):
         if petabProblem.parameter_df.parameterScale[parameterName] == 'log10':
             petabProblem.parameter_df.nominalValue[parameterName] = 10**parameterValue[testCaseIndex]
         #print(petabProblem.parameter_df)
-
     ret = obj(
         petabProblem.x_nominal_scaled, #parameterVector,
         mode="mode_fun",
-        sensi_orders=(0, 1),
+        sensi_orders=(0, 1, 2),
         return_dict=True,
     )
-
     JuliaCost = dataFrametestCase.Cost[testCaseIndex]
     PythonCost = ret['fval']
     #print("PythonCost = " , PythonCost)
     #print("JuliaCost  = ", JuliaCost)   
     #print("diffCost   = ", np.linalg.norm(JuliaCost-PythonCost)/np.linalg.norm(PythonCost))   
-    
     PythonGrad = ret['grad']
     lentestCaseGradColumns = len(petabProblem.x_nominal_scaled)
     JuliaGrad = np.zeros(lentestCaseGradColumns)
@@ -103,9 +104,25 @@ for testCaseIndex in range(0,len(dataFrametestCase)):
         parameterName = petabProblem.x_ids[i]
         parameterValue = dataFrametestCaseGrad[parameterName]
         JuliaGrad[i] = parameterValue[testCaseIndex]
-    PythonGrad[PythonGrad<1e-3]=0
-    JuliaGrad[JuliaGrad<1e-3]=0
+    #PythonGrad[PythonGrad<1e-7]=0
+    #JuliaGrad[JuliaGrad<1e-7]=0
     #print("PythonGrad = " , PythonGrad)
     #print("JuliaGrad = " , JuliaGrad)
     print("diffGrad = " , np.linalg.norm(JuliaGrad-PythonGrad)/np.linalg.norm(PythonGrad))
-    
+    PythonHess = ret['hess']
+    lentestCaseGradColumns = len(petabProblem.x_nominal_scaled)
+    JuliaHess = np.zeros((lentestCaseGradColumns,lentestCaseGradColumns))
+    row = 0
+    col = 0
+    # The non-free ids should have Hess=0
+    for rowid in petabProblem.x_free_ids:
+        col = 0
+        for colid in petabProblem.x_free_ids:
+            parameterName = rowid + colid
+            parameterValue = dataFrametestCaseHess[parameterName]
+            JuliaHess[row,col] = parameterValue[testCaseIndex]
+            col += 1
+        row += 1
+    print("PythonHess = " , PythonHess)
+    print("JuliaHess = " , JuliaHess)
+    print("diffHess = " , np.linalg.norm(JuliaHess-PythonHess)/np.linalg.norm(PythonHess))
