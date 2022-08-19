@@ -1,0 +1,6 @@
+#define alpha p[0]
+#define beta p[1]
+#define gamma p[2]
+#define delta p[3]
+#define noiseParameter1_sebastian_measurement p[4]
+#define noiseParameter1_damiano_measurement p[5]

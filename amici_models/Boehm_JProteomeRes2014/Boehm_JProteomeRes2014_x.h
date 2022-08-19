@@ -1,0 +1,8 @@
+#define STAT5A x[0]
+#define STAT5B x[1]
+#define pApB x[2]
+#define pApA x[3]
+#define pBpB x[4]
+#define nucpApA x[5]
+#define nucpApB x[6]
+#define nucpBpB x[7]

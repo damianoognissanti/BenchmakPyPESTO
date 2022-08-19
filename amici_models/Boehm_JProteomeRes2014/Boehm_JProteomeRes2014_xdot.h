@@ -1,0 +1,8 @@
+#define xdot0 xdot[0]
+#define xdot1 xdot[1]
+#define xdot2 xdot[2]
+#define xdot3 xdot[3]
+#define xdot4 xdot[4]
+#define xdot5 xdot[5]
+#define xdot6 xdot[6]
+#define xdot7 xdot[7]

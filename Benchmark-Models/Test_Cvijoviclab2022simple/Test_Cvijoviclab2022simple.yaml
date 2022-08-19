@@ -1,0 +1,11 @@
+format_version: 1
+parameter_file: parameters_Test_Cvijoviclab2022simple.tsv
+problems:
+- condition_files:
+  - experimentalCondition_Test_Cvijoviclab2022simple.tsv
+  measurement_files:
+  - measurementData_Test_Cvijoviclab2022simple.tsv
+  observable_files:
+  - observables_Test_Cvijoviclab2022simple.tsv
+  sbml_files:
+  - model_Test_Cvijoviclab2022simple.xml
