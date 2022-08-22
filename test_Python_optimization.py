@@ -21,7 +21,7 @@ import pandas as pd
 folder_base = "Benchmark-Models/"
 test_folder_base = "Small_Tests/"
 # modelName = "Zheng_PNAS2012"
-#modelName = "Boehm_JProteomeRes2014"
+# modelName = "Boehm_JProteomeRes2014"
 # modelName = "Fujita_SciSignal2010"
 # modelName = "Sneyd_PNAS2002"
 # modelName = "Borghans_BiophysChem1997"
@@ -64,9 +64,21 @@ obj = importer.create_objective()
 #obj.amici_solver.setMaxSteps(10000)
 obj.amici_solver.setRelativeTolerance(1e-15)
 obj.amici_solver.setAbsoluteTolerance(1e-15)
-    
-#for testCaseIndex in range(0,len(dataFrametestCase)):
-for testCaseIndex in range(0,3):
+
+#optimizer = optimize.CmaesOptimizer()
+#optimizer = optimize.DlibOptimizer()
+#optimizer = optimize.FidesOptimizer()
+optimizer = optimize.IpoptOptimizer()
+#optimizer = optimize.NLoptOptimizer()
+#optimizer = optimize.PyswarmOptimizer()
+#optimizer = optimize.PyswarmsOptimizer()
+#optimizer = optimize.ScipyDifferentialEvolutionOptimizer()
+#optimizer = optimize.ScipyOptimizer()
+# engine = pypesto.engine.SingleCoreEngine()
+engine = pypesto.engine.MultiProcessEngine()
+
+
+for testCaseIndex in range(0,len(dataFrametestCase)):
     lentestCaseColumns = len(testCaseColumns)
     parameterVector = petabProblem.x_nominal_scaled
     for i in range(0,lentestCaseColumns):
@@ -83,23 +95,17 @@ for testCaseIndex in range(0,3):
         return_dict=True,
     )
     problem = importer.create_problem(obj)
-    
-    print(problem.x_fixed_indices, problem.x_free_indices)
+    #print(problem.x_fixed_indices, problem.x_free_indices)
     objective = problem.objective
     ret = objective(petabProblem.x_nominal_free_scaled, sensi_orders=(0, 1))
-    print(ret)
-    optimizer = optimize.ScipyOptimizer()
-    # engine = pypesto.engine.SingleCoreEngine()
-    engine = pypesto.engine.MultiProcessEngine()
-    # do the optimization
+    #print(ret)
+    # perform the optimization
     result = optimize.minimize(
         problem=problem, optimizer=optimizer, n_starts=10, engine=engine
     )
-    print(result.optimize_result.fval)
-    ref = visualize.create_references(
-    x=petabProblem.x_nominal_scaled, fval=obj(petabProblem.x_nominal_scaled)
-    )
-    #visualize.waterfall(result, reference=ref, scale_y="lin")
-    #visualize.parameters(result, reference=ref)
-
-#plt.show()
+    resultDF = result.optimize_result.as_dataframe()
+    outputPath = os.path.join(test_folder_base, longModelName, "optRun" + str(testCaseIndex) + ".csv")
+    resultDF.to_csv(outputPath, header=resultDF.columns, index=None, sep=',', mode='a')
+    print(resultDF.fval)
+    print(resultDF.x)
+    print(resultDF.grad)
