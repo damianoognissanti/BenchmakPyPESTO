@@ -90,28 +90,26 @@ testCaseHessColumns = dataFrametestCaseHess.columns
 obj = importer.create_objective()
 # for some models, hyperparamters need to be adjusted
 #obj.amici_solver.setMaxSteps(10000)
-#obj.amici_solver.setRelativeTolerance(1e-7)
-#obj.amici_solver.setAbsoluteTolerance(1e-7)
-    
+obj.amici_solver.setRelativeTolerance(1e-15)
+obj.amici_solver.setAbsoluteTolerance(1e-15)
+
 for testCaseIndex in range(0,len(dataFrametestCase)):
     lentestCaseColumns = len(testCaseColumns)
     parameterVector = petabProblem.x_nominal_scaled
     for i in range(6,lentestCaseColumns):
         parameterName = testCaseColumns[i]
         parameterValue = dataFrametestCase[parameterName]
-        #parameterIndex = petabProblem.x_ids.index(parameterName)
-        #parameterVector[parameterIndex] = parameterValue[testCaseIndex]
         if petabProblem.parameter_df.parameterScale[parameterName] == 'lin':
             petabProblem.parameter_df.nominalValue[parameterName] = parameterValue[testCaseIndex]
         if petabProblem.parameter_df.parameterScale[parameterName] == 'log10':
             petabProblem.parameter_df.nominalValue[parameterName] = 10**parameterValue[testCaseIndex]
-        #print(petabProblem.parameter_df)
     ret = obj(
-        petabProblem.x_nominal_scaled, #parameterVector,
+        petabProblem.x_nominal_scaled,
         mode="mode_fun",
         sensi_orders=(0, 1, 2),
-        return_dict=True,
+        return_dict=True
     )
+    
     JuliaCost = dataFrametestCase.Cost[testCaseIndex]
     PythonCost = ret['fval']
 
@@ -213,19 +211,23 @@ for testCaseIndex in range(0,len(dataFrametestCase)):
             trueHess[gradIndPar[i], gradIndSd[i]] += DDlogLikFun_sigma_par(parV[i], sdV[i], c0V[i], time[i], obsData[i])
             trueHess[gradIndSd[i], gradIndPar[i]] += DDlogLikFun_sigma_par(parV[i], sdV[i], c0V[i], time[i], obsData[i])        
     
-    #print("PythonCost = " , PythonCost)
-    #print("ManualCost = " , truelLik)
-    #print("JuliaCost  = ", JuliaCost)   
-    #print("diffCost   = ", np.linalg.norm(JuliaCost-PythonCost)/np.linalg.norm(PythonCost))   
-    print("diffCost   = ", np.linalg.norm(truelLik-PythonCost)/np.linalg.norm(PythonCost))   
+    #print("PythonCost      = " , PythonCost)
+    #print("ManualCost      = " , truelLik)
+    #print("JuliaCost       = ", JuliaCost)   
+    print("diffCostPyJu    = ", np.linalg.norm(JuliaCost-PythonCost)/np.linalg.norm(PythonCost))   
+    print("diffCostPyJuMan = ", np.linalg.norm(truelLik-PythonCost)/np.linalg.norm(PythonCost))   
+    print("diffCostJuJuMan = ", np.linalg.norm(truelLik-JuliaCost)/np.linalg.norm(JuliaCost))   
 
     #print("PythonGrad = " , PythonGrad)
     #print("ManualGrad = " , trueGrad)
     #print("JuliaGrad = " , JuliaGrad)
-    #print("diffGradPyJu    = " , np.linalg.norm(JuliaGrad-PythonGrad)/np.linalg.norm(PythonGrad))
-    #print("diffGrad = " , np.linalg.norm(PythonGrad-trueGrad)/np.linalg.norm(PythonGrad))
+    print("diffGradPyJu    = " , np.linalg.norm(JuliaGrad-PythonGrad)/np.linalg.norm(PythonGrad))
+    print("diffGradPyJuMan = " , np.linalg.norm(PythonGrad-trueGrad)/np.linalg.norm(PythonGrad))
+    print("diffGradJuJuMan = " , np.linalg.norm(JuliaGrad-trueGrad)/np.linalg.norm(JuliaGrad))
 
     #print("PythonHess = " , PythonHess)
     #print("ManualHess = " , trueHess)
     #print("JuliaHess = " , JuliaHess)
-    #print("diffGrad = " , np.linalg.norm(PythonHess-trueHess)/np.linalg.norm(PythonHess))
+    print("diffHessPyJu = " , np.linalg.norm(JuliaHess-PythonHess)/np.linalg.norm(PythonHess))
+    print("diffHessPyJuMan = " , np.linalg.norm(PythonHess-trueHess)/np.linalg.norm(PythonHess))
+    print("diffHessJuJuMan = " , np.linalg.norm(JuliaHess-trueHess)/np.linalg.norm(JuliaHess))
