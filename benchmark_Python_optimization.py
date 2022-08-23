@@ -20,7 +20,7 @@ modelName = "Boehm_JProteomeRes2014"
 # modelName = "Schwen_PONE2014"
 # modelName = "Blasi_CellSystems2016"
 # modelName = "Test_Cvijoviclab2022simple"
-#modelName = "Test_Cvijoviclab2022"
+# modelName = "Test_Cvijoviclab2022"
 
 # the yaml configuration file links to all needed files
 yamlConfig = os.path.join(folder_base, modelName, modelName + ".yaml")
