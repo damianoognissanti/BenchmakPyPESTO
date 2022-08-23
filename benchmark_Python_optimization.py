@@ -96,7 +96,7 @@ for optimizer in optimizerVector:
     resultDF = result.optimize_result.as_dataframe()
     outputPath = os.path.join(test_folder_base, longModelName, "optRun" + nameOfOptimizer + ".csv")
     resultDF.to_csv(outputPath, header=resultDF.columns, index=None, sep=',', mode='a')
-    print(resultDF.fval)
-    print(resultDF.x)
-    print(resultDF.grad)
+    #print(resultDF.fval)
+    #print(resultDF.x)
+    #print(resultDF.grad)
 
