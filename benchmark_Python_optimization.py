@@ -51,17 +51,6 @@ obj = importer.create_objective()
 obj.amici_solver.setRelativeTolerance(1e-15)
 obj.amici_solver.setAbsoluteTolerance(1e-15)
 
-# select an optimizer
-#optimizer = optimize.CmaesOptimizer()
-#optimizer = optimize.DlibOptimizer()
-#optimizer = optimize.FidesOptimizer()
-#optimizer = optimize.IpoptOptimizer()
-#optimizer = optimize.NLoptOptimizer()
-#optimizer = optimize.PyswarmOptimizer()
-#optimizer = optimize.PyswarmsOptimizer()
-#optimizer = optimize.ScipyDifferentialEvolutionOptimizer()
-optimizer = optimize.ScipyOptimizer()
-
 # select single or multiprocess engine
 engine = pypesto.engine.SingleCoreEngine()
 #engine = pypesto.engine.MultiProcessEngine()
@@ -70,9 +59,25 @@ engine = pypesto.engine.SingleCoreEngine()
 problem = importer.create_problem(obj)
 problem.set_x_guesses(guessMatrix)
 
-result = optimize.minimize(
-    problem=problem, optimizer=optimizer, n_starts=numberOfGuesses, engine=engine
-)
+# select an optimizer, you will probably need to add them with `pip install ...`
+# I had to install these (for ipopt I first had to do  sudo apt install coinor-libipopt-dev)
+#pip install pyswarm
+#pip install dlib
+#pip install fides
+#pip install cma
+#pip install nlopt
+#pip install ipopt
+
+optimizerVector = [
+    optimize.CmaesOptimizer(), 
+    optimize.DlibOptimizer(), 
+    optimize.FidesOptimizer(), 
+    optimize.IpoptOptimizer(), 
+    optimize.NLoptOptimizer(), 
+    optimize.PyswarmOptimizer(), 
+    optimize.PyswarmsOptimizer(), 
+    optimize.ScipyDifferentialEvolutionOptimizer(), 
+    optimize.ScipyOptimizer()]
 
 # If n_starts > numberOfGuesses it will create guesses itself.
 # This also works if there are no guesses at all.
@@ -80,9 +85,18 @@ result = optimize.minimize(
 #    problem=problem, optimizer=optimizer, n_starts=100, engine=engine
 #)
 
-resultDF = result.optimize_result.as_dataframe()
-outputPath = os.path.join(test_folder_base, longModelName, "optRunScipy.csv")
-resultDF.to_csv(outputPath, header=resultDF.columns, index=None, sep=',', mode='a')
-print(resultDF.fval)
-print(resultDF.x)
-print(resultDF.grad)
+# TEST ALL THE OPTIMIZERS!!!!
+for optimizer in optimizerVector:
+
+    result = optimize.minimize(
+        problem=problem, optimizer=optimizer, n_starts=numberOfGuesses, engine=engine
+    )
+    # There is probably a cleaner way of extracting the name of the optimizer
+    nameOfOptimizer = str(type(optimizer))[35:-2]
+    resultDF = result.optimize_result.as_dataframe()
+    outputPath = os.path.join(test_folder_base, longModelName, "optRun" + nameOfOptimizer + ".csv")
+    resultDF.to_csv(outputPath, header=resultDF.columns, index=None, sep=',', mode='a')
+    print(resultDF.fval)
+    print(resultDF.x)
+    print(resultDF.grad)
+

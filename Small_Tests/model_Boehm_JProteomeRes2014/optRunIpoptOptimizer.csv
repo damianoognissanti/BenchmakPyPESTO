@@ -2,24 +2,24 @@ id,x,fval,grad,hess,res,sres,n_fval,n_grad,n_hess,n_res,n_sres,x0,fval0,history,
 4,"[-1.46535122 -2.66280173 -2.76381926  2.09804137 -1.90127212  4.38015501
   0.693       0.53325857  0.86606743  1.21638487  0.107     ]",164.43451263252084,"[-0.1331214  -0.03340053 -0.02481343 -0.02022009 -0.26618495 -0.03048741
          nan  0.03010851  0.09579083  0.06239142         nan]",,,,420,101,0,0,0,"[-1.13309837 -4.81428    -4.27819276  4.14246586 -1.12625938  2.71916356
-  0.693      -1.22616741  3.75555    -2.3543186   0.107     ]",181153504.39309067,<pypesto.objective.history.History object at 0x7fc710647070>,1,6.91377854347229,"b'Algorithm stopped at a point that was converged, not to ""desired"" tolerances, but to ""acceptable"" tolerances (see the acceptable-... options).'",<IpoptOptimizer>
+  0.693      -1.22616741  3.75555    -2.3543186   0.107     ]",181153504.39309067,<pypesto.objective.history.History object at 0x7f71482edf70>,1,7.7765443325042725,"b'Algorithm stopped at a point that was converged, not to ""desired"" tolerances, but to ""acceptable"" tolerances (see the acceptable-... options).'",<IpoptOptimizer>
 3,"[-2.07679425 -0.3687445   2.10897619 -2.48121346 -3.9781107   4.0197406
   0.693       1.58425048  1.55462416  0.7089916   0.107     ]",208.62325867097806,"[-2.98701157e+00  1.57625483e-01 -1.76303856e-05  1.18568534e+00
  -3.26081116e-01 -1.73320908e+00             nan  1.02113195e+01
   4.34954112e-01 -4.90628901e+00             nan]",,,,71,44,0,0,0,"[-1.86495085 -0.36390256  2.13635922 -2.94075091 -4.09448836  0.81912342
-  0.693      -1.88552499 -3.78852479 -2.95470183  0.107     ]",975568880084.2341,<pypesto.objective.history.History object at 0x7fc7106a6700>,1,1.3123021125793457,"b'Algorithm stopped at a point that was converged, not to ""desired"" tolerances, but to ""acceptable"" tolerances (see the acceptable-... options).'",<IpoptOptimizer>
+  0.693      -1.88552499 -3.78852479 -2.95470183  0.107     ]",975568880084.2341,<pypesto.objective.history.History object at 0x7f71482e8220>,1,1.9853839874267578,"b'Algorithm stopped at a point that was converged, not to ""desired"" tolerances, but to ""acceptable"" tolerances (see the acceptable-... options).'",<IpoptOptimizer>
 2,"[ 1.61223416 -2.0039391  -2.18645025  4.54285651  3.6875778  -2.5987675
   0.693       1.87397352  1.76087011  1.30023571  0.107     ]",249.74669331414088,"[-1.41685024e-08  4.08195639e-09 -7.21477571e-09  3.09996442e-15
  -3.35268937e-14  1.41671568e-08             nan  2.22003017e-01
   3.62891326e-01  2.32054717e-01             nan]",,,,38,32,0,0,0,"[ 1.64468479 -2.04633495 -2.23402554  4.83435711  3.80897491 -2.65983194
-  0.693      -1.19050621 -3.68056267 -4.11708981  0.107     ]",1148119384131.093,<pypesto.objective.history.History object at 0x7fc7106476a0>,0,0.37447047233581543,"b'Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).'",<IpoptOptimizer>
+  0.693      -1.19050621 -3.68056267 -4.11708981  0.107     ]",1148119384131.093,<pypesto.objective.history.History object at 0x7f714a3b9730>,0,0.5805182456970215,"b'Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).'",<IpoptOptimizer>
 0,"[ 0.13354169  0.54854862  2.49415019 -2.00277659  0.16169402 -0.69254516
   0.693       1.87533828  1.76007302  1.29573845  0.107     ]",249.74732325294485,"[ 6.15391638e-04  7.64082713e-08 -1.88729437e-09  2.12981725e-04
   3.96527342e-06 -6.14935212e-04             nan  4.52087581e-01
   2.28967581e-01 -5.33703744e-01             nan]",,,,27,20,0,0,0,"[ 0.21213796  0.86806757  3.90878698 -3.09093301  0.25662392 -1.09411725
-  0.693      -4.55181995  4.33353287  0.80559982  0.107     ]",56499970378953.42,<pypesto.objective.history.History object at 0x7fc7106a66d0>,0,0.3649435043334961,"b'Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).'",<IpoptOptimizer>
+  0.693      -4.55181995  4.33353287  0.80559982  0.107     ]",56499970378953.42,<pypesto.objective.history.History object at 0x7f71482e84c0>,0,0.42677903175354004,"b'Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).'",<IpoptOptimizer>
 1,"[ 0.59427701 -0.09423694 -1.06588005  0.69800236  0.12144846  0.47496132
   0.693       1.8712732   1.75543118  1.30181742  0.107     ]",249.74784922386846,"[-6.35392082e-05  4.02223414e-06 -6.26950641e-05  5.77654631e-07
   1.54270679e-05  6.61079609e-05             nan -2.36209700e-01
  -5.62328989e-01  4.97605811e-01             nan]",,,,17,18,0,0,0,"[-1.72762121  0.26995919  3.36228575 -4.59093864 -0.34798495 -1.37350674
-  0.693      -3.97795394  2.20102559  0.73619242  0.107     ]",4020026364323.6377,<pypesto.objective.history.History object at 0x7fc7106a67c0>,0,0.36450815200805664,"b'Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).'",<IpoptOptimizer>
+  0.693      -3.97795394  2.20102559  0.73619242  0.107     ]",4020026364323.6377,<pypesto.objective.history.History object at 0x7f71482c4730>,0,0.4190711975097656,"b'Algorithm terminated successfully at a locally optimal point, satisfying the convergence tolerances (can be specified by options).'",<IpoptOptimizer>
