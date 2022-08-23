@@ -1,13 +1,9 @@
 import os
-import amici
-import matplotlib.pyplot as plt
 import numpy as np
 import petab
 import pypesto
 import pypesto.optimize as optimize
 import pypesto.petab
-import pypesto.visualize as visualize
-import libsbml
 import pandas as pd
 
 
@@ -77,6 +73,12 @@ problem.set_x_guesses(guessMatrix)
 result = optimize.minimize(
     problem=problem, optimizer=optimizer, n_starts=numberOfGuesses, engine=engine
 )
+
+# If n_starts > numberOfGuesses it will create guesses itself.
+# This also works if there are no guesses at all.
+#result = optimize.minimize(
+#    problem=problem, optimizer=optimizer, n_starts=100, engine=engine
+#)
 
 resultDF = result.optimize_result.as_dataframe()
 outputPath = os.path.join(test_folder_base, longModelName, "optRun.csv")
