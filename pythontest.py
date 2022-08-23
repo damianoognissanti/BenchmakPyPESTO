@@ -21,7 +21,7 @@ import pandas as pd
 folder_base = "Benchmark-Models/"
 test_folder_base = "Small_Tests/"
 # modelName = "Zheng_PNAS2012"
-#modelName = "Boehm_JProteomeRes2014"
+modelName = "Boehm_JProteomeRes2014"
 # modelName = "Fujita_SciSignal2010"
 # modelName = "Sneyd_PNAS2002"
 # modelName = "Borghans_BiophysChem1997"
@@ -30,7 +30,7 @@ test_folder_base = "Small_Tests/"
 # modelName = "Lucarelli_CellSystems2018"
 # modelName = "Schwen_PONE2014"
 # modelName = "Blasi_CellSystems2016"
-modelName = "Test_Cvijoviclab2022simple"
+#modelName = "Test_Cvijoviclab2022simple"
 #modelName = "Test_Cvijoviclab2022"
 
 
@@ -128,3 +128,11 @@ for testCaseIndex in range(0,len(dataFrametestCase)):
     print("diffHess = " , np.linalg.norm(JuliaHess-PythonHess)/np.linalg.norm(PythonHess))
     print("")
     #print(JuliaHess/PythonHess)
+    print(PythonHess[3])
+    print(JuliaHess[3])
+    print("")
+    print("")
+    print("")
+    print("")
+    np.set_printoptions(precision=3, suppress=True)
+    print(PythonHess/JuliaHess)
