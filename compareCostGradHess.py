@@ -31,8 +31,8 @@ def getGradHessFromDataFrame(problem, dataFrameGrad, dataFrameHess, rowindex, gr
 folder_base = "Benchmark-Models/"
 test_folder_base = "Small_Tests/"
 modelName = "Boehm_JProteomeRes2014"
-#modelName = "Test_Cvijoviclab2022simple"
-#modelName = "Test_Cvijoviclab2022"
+# modelName = "Test_Cvijoviclab2022simple"
+# modelName = "Test_Cvijoviclab2022"
 
 # the yaml configuration file links to all needed files
 yamlConfig = os.path.join(folder_base, modelName, modelName + ".yaml")
@@ -76,7 +76,6 @@ for testCaseIndex in range(0,numberOfGuesses):
     PythonGrad = ret['grad']
     PythonHess = ret['hess']
 
-
     JuliaCost = dataFrametestCase.Cost[testCaseIndex]
     numberOfParameters = len(PythonGrad)
     JuliaGrad = np.zeros(numberOfParameters)
@@ -84,16 +83,36 @@ for testCaseIndex in range(0,numberOfGuesses):
 
     getGradHessFromDataFrame(petabProblem, dataFrametestCaseGrad, dataFrametestCaseHess, testCaseIndex, JuliaGrad, JuliaHess)
 
-    print(PythonCost)
-    print(JuliaCost)
+    # Control python gradient manually
+    #problem = importer.create_problem(obj)
+    #objective = problem.objective
+    #eps = 1e-4
+    #
+    #def fd(x):
+    #    grad = np.zeros_like(x)
+    #    j = 0
+    #    for i, xi in enumerate(x):
+    #        mask = np.zeros_like(x)
+    #        mask[i] += eps
+    #        valinc, _ = objective(x + mask, sensi_orders=(0, 1))
+    #        valdec, _ = objective(x - mask, sensi_orders=(0, 1))
+    #        grad[j] = (valinc - valdec) / (2 * eps)
+    #        j += 1
+    #    return grad
+    #
+    #fdval = fd(petabProblem.x_nominal_free_scaled)
+    #print(fdval)
+
+    print("PythonCost = ", PythonCost)
+    print("JuliaCost = ", JuliaCost)
     print(np.linalg.norm(PythonCost-JuliaCost)/np.linalg.norm(PythonCost))
     print("")
-    #print(PythonGrad)
-    #print(JuliaGrad)
+    print("PythonGrad = ", PythonGrad)
+    print("JuliaGrad = ", JuliaGrad)
     print(np.linalg.norm(PythonGrad-JuliaGrad)/np.linalg.norm(PythonGrad))
     print("")
-    #print(PythonHess)
-    #print(JuliaHess)
+    #print("PythonHess = ", PythonHess)
+    #print("JuliaHess = ", JuliaHess)
     print(np.linalg.norm(PythonHess-JuliaHess)/np.linalg.norm(PythonHess))
     print("")
     
