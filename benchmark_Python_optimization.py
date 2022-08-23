@@ -40,8 +40,9 @@ dataFrametestCase = pd.read_csv(testCasePath)
 
 # initialize the guessMatrix by copying the scaled variables over and over 
 # (so that the fixed parameters are stored in the correct positions)
+numberOfGuesses = len(dataFrametestCase)
 guessMatrix = np.array(importer.petab_problem.x_nominal_scaled)
-guessMatrix = np.tile(guessMatrix,(len(dataFrametestCase),1))
+guessMatrix = np.tile(guessMatrix,(numberOfGuesses,1))
 
 # The dataframe does not contain fixed parameters, only free
 # so add the imported parameters to the free column indices
@@ -74,7 +75,7 @@ problem = importer.create_problem(obj)
 problem.set_x_guesses(guessMatrix)
 
 result = optimize.minimize(
-    problem=problem, optimizer=optimizer, n_starts=10, engine=engine
+    problem=problem, optimizer=optimizer, n_starts=numberOfGuesses, engine=engine
 )
 
 resultDF = result.optimize_result.as_dataframe()
