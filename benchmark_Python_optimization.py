@@ -55,12 +55,12 @@ obj.amici_solver.setAbsoluteTolerance(1e-15)
 #optimizer = optimize.CmaesOptimizer()
 #optimizer = optimize.DlibOptimizer()
 #optimizer = optimize.FidesOptimizer()
-optimizer = optimize.IpoptOptimizer()
+#optimizer = optimize.IpoptOptimizer()
 #optimizer = optimize.NLoptOptimizer()
 #optimizer = optimize.PyswarmOptimizer()
 #optimizer = optimize.PyswarmsOptimizer()
 #optimizer = optimize.ScipyDifferentialEvolutionOptimizer()
-#optimizer = optimize.ScipyOptimizer()
+optimizer = optimize.ScipyOptimizer()
 
 # select single or multiprocess engine
 engine = pypesto.engine.SingleCoreEngine()
@@ -81,7 +81,7 @@ result = optimize.minimize(
 #)
 
 resultDF = result.optimize_result.as_dataframe()
-outputPath = os.path.join(test_folder_base, longModelName, "optRun.csv")
+outputPath = os.path.join(test_folder_base, longModelName, "optRunScipy.csv")
 resultDF.to_csv(outputPath, header=resultDF.columns, index=None, sep=',', mode='a')
 print(resultDF.fval)
 print(resultDF.x)
