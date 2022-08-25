@@ -123,6 +123,8 @@ def calculateCostGradHess(dataFrameCost, rowindex, experimentalCondition, measur
 folder_base = "Benchmark-Models/"
 test_folder_base = "Small_Tests/"
 modelName = "Test_Cvijoviclab2022simple"
+longModelName = "model_" + modelName 
+
 s0 = 8.0
 d0 = 4.0
 
@@ -132,11 +134,6 @@ yamlConfig = os.path.join(folder_base, modelName, modelName + ".yaml")
 # import the model from yaml-file
 importer = pypesto.petab.PetabImporter.from_yaml(yamlConfig)
 petabProblem = importer.petab_problem
-
-# open the CSV-file with the parameter values
-longModelName = "model_" + modelName 
-testCasePath = os.path.join(test_folder_base, longModelName, "CubeOpt.csv")
-dataFrametestCase = pd.read_csv(testCasePath)
 
 # open CSV-files with the Cost, Grad and Hess from Julia
 testCasePath = os.path.join(test_folder_base, longModelName, "TestCase.csv")
@@ -154,8 +151,8 @@ measurementData = pd.read_csv(measurementDataPath, sep='\t')
 # create and set options for the objective function
 obj = importer.create_objective()
 #obj.amici_solver.setMaxSteps(10000)
-obj.amici_solver.setRelativeTolerance(1e-15)
-obj.amici_solver.setAbsoluteTolerance(1e-15)
+#obj.amici_solver.setRelativeTolerance(1e-15)
+#obj.amici_solver.setAbsoluteTolerance(1e-15)
 
 numberOfGuesses = len(dataFrametestCase)
 
@@ -185,18 +182,16 @@ for testCaseIndex in range(0,numberOfGuesses):
     #print(JuliaCost)
     #print(trueCost)
     print(np.linalg.norm(PythonCost-JuliaCost)/np.linalg.norm(PythonCost))
-    print(np.linalg.norm(JuliaCost-trueCost)/np.linalg.norm(JuliaCost))
-    print("")
+    #print(np.linalg.norm(JuliaCost-trueCost)/np.linalg.norm(JuliaCost))
+    #print("")
     #print(PythonGrad)
     #print(JuliaGrad)
     #print(trueGrad)
-    print(np.linalg.norm(PythonGrad-JuliaGrad)/np.linalg.norm(PythonGrad))
-    print(np.linalg.norm(JuliaGrad-trueGrad)/np.linalg.norm(JuliaGrad))
-    print("")
+    #print(np.linalg.norm(PythonGrad-JuliaGrad)/np.linalg.norm(PythonGrad))
+    #print(np.linalg.norm(JuliaGrad-trueGrad)/np.linalg.norm(JuliaGrad))
+    #print("")
     #print(PythonHess)
     #print(JuliaHess)
-    #print(trueHess)
-    print(np.linalg.norm(PythonHess-JuliaHess)/np.linalg.norm(PythonHess))
-    print(np.linalg.norm(JuliaHess-trueHess)/np.linalg.norm(JuliaHess))
-    print("")
-    
+    #print(np.linalg.norm(PythonHess-JuliaHess)/np.linalg.norm(PythonHess))
+    #print(np.linalg.norm(JuliaHess-trueHess)/np.linalg.norm(JuliaHess))
+    #print("")    
