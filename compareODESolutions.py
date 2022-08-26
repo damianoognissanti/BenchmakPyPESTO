@@ -40,6 +40,11 @@ petabProblem = importer.petab_problem
 testCasePath = os.path.join(test_folder_base, longModelName, "TestCase.csv")
 dataFrametestCase = pd.read_csv(testCasePath)
 
+# Path to sol.csv-folder
+csvWritePath = os.path.join(test_folder_base, longModelName, "PythonSols/")
+# Path to Plot-folder
+plotWritePath = os.path.join(test_folder_base, longModelName, "PythonPlots/")
+
 # create and set options for the objective function
 obj = importer.create_objective()
 #obj.amici_solver.setMaxSteps(10000)
@@ -84,7 +89,7 @@ for testCaseIndex in range(0,numberOfGuesses):
     outData = np.c_[timeoutData,xoutData]
     headerString = ','.join(model.getStateIds())
     headerString = 'time,'+headerString
-    np.savetxt(fileName, outData, delimiter=",",header=headerString, comments='')
+    np.savetxt(csvWritePath + fileName, outData, delimiter=",",header=headerString, comments='')
     
     plt.plot(rdata['ts'],rdata['x'][:,0])
     plt.plot(rdata['ts'],rdata['x'][:,1])
@@ -97,8 +102,9 @@ for testCaseIndex in range(0,numberOfGuesses):
 
     plt.legend(model.getStateIds())
     #plt.show()
-    plt.savefig('Figure' +str(testCaseIndex+1) + '.png')
+    plt.savefig(plotWritePath + 'Figure' +str(testCaseIndex+1) + '.png')
     plt.clf()
+
 
 ###amici.plotting.plotObservableTrajectories(rdata)
 ###amici.plotting.plotStateTrajectories(rdata)
